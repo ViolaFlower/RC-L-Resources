@@ -12,5 +12,9 @@ These are assets required by Re-Console: Legacy to function. This includes the p
 - Panoramas ported directly from LCE
 - A lot of misc. textures
 
+# Dependencies
+- Legacy4J
+- [Sodium Core Shader Support](https://modrinth.com/mod/sodium-core-shader-support) (optional)
+
 # Attribution
 - Permdog99 for making the Legacy Reborn resource packs, which these are forked from.
