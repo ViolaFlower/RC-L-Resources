@@ -18,3 +18,4 @@ These are assets required by Re-Console: Legacy to function. This includes the p
 
 # Attribution
 - Permdog99 for making the Legacy Reborn resource packs, which these are forked from.
+- RedRain0o0 for making the disc hunt datapack used in the tutorial worlds
