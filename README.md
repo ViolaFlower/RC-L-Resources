@@ -19,3 +19,7 @@ These are assets required by Re-Console: Legacy to function. This includes the p
 # Attribution
 - Permdog99 for making the Legacy Reborn resource packs, which these are forked from.
 - RedRain0o0 for making the disc hunt datapack used in the tutorial worlds
+- Mojang and Microsoft for creating the old (unused) beta textures that this modpack has built-in!
+- Agent Ruru for supplying the old Xbox 360 Intro .pngs!
+- Cjnator38 for creating new controller icons (X360 and XONE), and helping with sound design!
+- Wilyicaro for helping with the Xbox 360 controller icons!
