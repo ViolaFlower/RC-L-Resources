@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-data-dev:
+  build-resources-dev:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,31 +20,44 @@ jobs:
             shortSha=$(git rev-parse --short ${{ github.sha }})
             echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
-      - name: Prepare artifacts
+      - name: Create TU1 Resources
         run: |
-            cp ./LICENSE ./TU1/TU1-Assets/
-            cp ./README.md ./TU1/TU1-Assets/
+            mkdir TU1-temp
+            cp -r ./Common/Assets/* ./TU1-temp/
+            cp -r ./TU1/TU1-Assets/* ./TU1-temp/
+            cp ./LICENSE ./TU1-temp/
+            cp ./README.md ./TU1-temp/
 
-            cp ./LICENSE ./TU3/TU3-Assets/
-            cp ./README.md ./TU3/TU3-Assets/
+      - name: Create TU3 Resources
+        run: |
+            mkdir TU3-temp
+            cp -r ./Common/Assets/* ./TU3-temp/
+            cp -r ./TU3/TU3-Assets/* ./TU3-temp/
+            cp ./LICENSE ./TU3-temp/
+            cp ./README.md ./TU3-temp/
 
-            cp ./LICENSE ./TU5/TU5-Assets/
-            cp ./README.md ./TU5/TU5-Assets/
+      - name: Create TU5 Resources
+        run: |
+            mkdir TU5-temp
+            cp -r ./Common/Assets/* ./TU5-temp/
+            cp -r ./TU5/TU5-Assets/* ./TU5-temp/
+            cp ./LICENSE ./TU5-temp/
+            cp ./README.md ./TU5-temp/
 
-      - name: Upload TU1 Data
-        uses: actions/upload-artifact@v3
+      - name: Upload TU1 Resources
+        uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU1-dev-${{ env.COMMIT_SHORT_SHA }}"
-          path: TU1/TU1-Assets
+          path: TU1-temp
 
-      - name: Upload TU3 Data
-        uses: actions/upload-artifact@v3
+      - name: Upload TU3 Resources
+        uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU3-dev-${{ env.COMMIT_SHORT_SHA }}"
-          path: TU3/TU3-Assets
+          path: TU3-temp
 
-      - name: Upload TU5 Data
-        uses: actions/upload-artifact@v3
+      - name: Upload TU5 Resources
+        uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU5-dev-${{ env.COMMIT_SHORT_SHA }}"
-          path: TU5/TU5-Assets
+          path: TU5-temp
