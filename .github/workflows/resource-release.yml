@@ -1,0 +1,55 @@
+name: Resource Pack Releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      changelog:
+        description: 'The Changelog for the release'
+        default: 'Stuff was added... thats all I know.'
+        required: true
+        type: string
+      version:
+        description: 'The Version for the release'
+        default: '0.0.0'
+        required: true
+        type: string
+      pre-release:
+        description: 'Whether to label as a Pre-Release or not [WRITE: "true" for true]'
+        default: false
+        type: string
+
+jobs:
+  build-resources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare builds
+        run: |
+            cp ./LICENSE ./TU1/TU1-Assets/
+            cp ./README.md ./TU1/TU1-Assets/
+
+            cp ./LICENSE ./TU3/TU3-Assets/
+            cp ./README.md ./TU3/TU3-Assets/
+
+            cp ./LICENSE ./TU5/TU5-Assets/
+            cp ./README.md ./TU5/TU5-Assets/
+
+      - name: Create Release & Upload
+        if: |
+            github.repository == 'ViolaFlower/RC-L-Resources' &&
+            github.event.action != 'pull_request' &&
+            github.ref == 'refs/heads/main'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            $TU1="Re-Console-Legacy-Resources-TU1-${{ inputs.version }}.zip"
+            $TU3="Re-Console-Legacy-Resources-TU3-${{ inputs.version }}.zip"
+            $TU5="Re-Console-Legacy-Resources-TU5-${{ inputs.version }}.zip"
+
+            tar czf $TU1 ./TU1/TU1-Assets/
+            tar czf $TU3 ./TU3/TU3-Assets/
+            tar czf $TU5 ./TU5/TU5-Assets/
+          
+            $tag=${{ inputs.version }}
+            gh release create $tag $TU1 $TU3 $TU5 -t "Re-Console: Legacy Resources ${{ inputs.version }}" --pre-release=${{ inputs.pre-release }} -n ${{ inputs.description }}
