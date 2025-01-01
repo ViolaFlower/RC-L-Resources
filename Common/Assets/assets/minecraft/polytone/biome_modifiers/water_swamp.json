@@ -1,0 +1,5 @@
+{
+  "targets": ["minecraft:swamp","minecraft:mangrove_swamp","moderner_beta:early_release_swampland"],
+  "water_color": 14745518,
+  "water_fog_color": 197926
+}
