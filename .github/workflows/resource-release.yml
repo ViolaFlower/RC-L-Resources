@@ -51,5 +51,4 @@ jobs:
             tar czf $TU3 ./TU3/TU3-Assets/
             tar czf $TU5 ./TU5/TU5-Assets/
           
-            $tag=${{ inputs.version }}
-            gh release create $tag $TU1 $TU3 $TU5 -t 'Re-Console: Legacy Resources ${{ inputs.version }}' --pre-release=${{ inputs.pre-release }} -n ${{ inputs.description }}
+            gh release create ${{ inputs.version }} $TU1 $TU3 $TU5 -t 'Re-Console: Legacy Resources ${{ inputs.version }}' --pre-release=${{ inputs.pre-release }} -n ${{ inputs.description }}
