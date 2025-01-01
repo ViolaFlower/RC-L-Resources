@@ -21,6 +21,10 @@ on:
 jobs:
   build-resources:
     runs-on: ubuntu-latest
+    env:
+        TU1: 'Re-Console-Legacy-Resources-TU1-${{ inputs.version }}.zip'
+        TU3: 'Re-Console-Legacy-Resources-TU3-${{ inputs.version }}.zip'
+        TU5: 'Re-Console-Legacy-Resources-TU5-${{ inputs.version }}.zip'
     steps:
       - uses: actions/checkout@v4
 
@@ -43,10 +47,6 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-            $TU1= 'Re-Console-Legacy-Resources-TU1-${{ inputs.version }}.zip'
-            $TU3= 'Re-Console-Legacy-Resources-TU3-${{ inputs.version }}.zip'
-            $TU5= 'Re-Console-Legacy-Resources-TU5-${{ inputs.version }}.zip'
-
             tar czf $TU1 ./TU1/TU1-Assets/
             tar czf $TU3 ./TU3/TU3-Assets/
             tar czf $TU5 ./TU5/TU5-Assets/
