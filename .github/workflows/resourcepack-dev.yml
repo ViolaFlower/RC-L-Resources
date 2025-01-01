@@ -1,0 +1,50 @@
+name: Resource Pack Dev Builds
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build-data-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create short commit SHA
+        id: vars
+        run: |
+            shortSha=$(git rev-parse --short ${{ github.sha }})
+            echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Prepare artifacts
+        run: |
+            cp ./LICENSE ./TU1/TU1-Assets/
+            cp ./README.md ./TU1/TU1-Assets/
+
+            cp ./LICENSE ./TU3/TU3-Assets/
+            cp ./README.md ./TU3/TU3-Assets/
+
+            cp ./LICENSE ./TU5/TU5-Assets/
+            cp ./README.md ./TU5/TU5-Assets/
+
+      - name: Upload TU1 Data
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Re-Console-Legacy-Resources-TU1-dev-${{ env.COMMIT_SHORT_SHA }}"
+          path: TU1/TU1-Assets
+
+      - name: Upload TU3 Data
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Re-Console-Legacy-Resources-TU3-dev-${{ env.COMMIT_SHORT_SHA }}"
+          path: TU3/TU3-Assets
+
+      - name: Upload TU5 Data
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Re-Console-Legacy-Resources-TU5-dev-${{ env.COMMIT_SHORT_SHA }}"
+          path: TU5/TU5-Assets
