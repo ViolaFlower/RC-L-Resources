@@ -79,12 +79,8 @@ jobs:
             tar czf $TU3 ./TU3-temp/
             tar czf $TU5 ./TU5-temp/
             
-            $tag=${{ env.COMMIT_SHORT_SHA }}
-            $title="${VERSION}-${tag}"
-            gh release create $tag $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t $title -p
-            # Remove canary_ to prevent conflicts from tag
-            $tag="${VERSION}-latest"
+            gh release create ${{ env.COMMIT_SHORT_SHA }} $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t "${VERSION}-${{ env.COMMIT_SHORT_SHA }}" -p
             gh release delete $tag -y
             git push --delete origin $tag
             git tag -d $tag
-            gh release create $tag $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t $tag
+            gh release create "${VERSION}-latest" $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t "${VERSION}-latest"
