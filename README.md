@@ -4,7 +4,6 @@
 **This requires the Legacy4J mod.**
 
 These are assets required by Re-Console: Legacy to function. This includes the panorama, crafting menu, creative menu, and a lot of textures
-
 ![TU5 menu](https://cdn.modrinth.com/data/cached_images/cfd1d0d9dbd1dd69fe0e6fbbe4d56eedfae74089_0.webp)
 
 # Features
