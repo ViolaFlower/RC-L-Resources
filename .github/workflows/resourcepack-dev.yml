@@ -11,6 +11,11 @@ on:
 jobs:
   build-resources-dev:
     runs-on: ubuntu-latest
+    env:
+        TU1: 'Re-Console-Legacy-Resources-TU1-0.0.30-latest.zip'
+        TU3: 'Re-Console-Legacy-Resources-TU3-0.0.30-latest.zip'
+        TU5: 'Re-Console-Legacy-Resources-TU5-0.0.30-latest.zip'
+        VERSION: 0.0.30
     steps:
       - uses: actions/checkout@v4
 
@@ -44,20 +49,42 @@ jobs:
             cp ./LICENSE ./TU5-temp/
             cp ./README.md ./TU5-temp/
 
-      - name: Upload TU1 Resources
+      - name: Upload TU1 Resources to artifact
         uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU1-dev-${{ env.COMMIT_SHORT_SHA }}"
           path: TU1-temp
 
-      - name: Upload TU3 Resources
+      - name: Upload TU3 Resources to artifact
         uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU3-dev-${{ env.COMMIT_SHORT_SHA }}"
           path: TU3-temp
 
-      - name: Upload TU5 Resources
+      - name: Upload TU5 Resources to artifact
         uses: actions/upload-artifact@v4
         with:
           name: "Re-Console-Legacy-Resources-TU5-dev-${{ env.COMMIT_SHORT_SHA }}"
           path: TU5-temp
+
+      - name: Create release & upload
+        if: |
+          github.repository == 'ViolaFlower/RC-L-Resources' &&
+          github.event.action != 'pull_request' &&
+          github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            tar czf $TU1 ./TU1-temp/
+            tar czf $TU3 ./TU3-temp/
+            tar czf $TU5 ./TU5-temp/
+            
+            $tag=${{ env.COMMIT_SHORT_SHA }}
+            $title="${VERSION}-${tag}"
+            gh release create $tag $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t $title -p
+            # Remove canary_ to prevent conflicts from tag
+            $tag="${VERSION}-latest"
+            gh release delete $tag -y
+            git push --delete origin $tag
+            git tag -d $tag
+            gh release create $tag $TU1 $TU3 $TU5 --target $env:GITHUB_SHA -t $tag
